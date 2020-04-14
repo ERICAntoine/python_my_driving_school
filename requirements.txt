@@ -1,0 +1,5 @@
+django
+django-debug-toolbar
+django-bower==5.2.0
+django-scheduler
+crispy_forms
