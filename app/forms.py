@@ -18,8 +18,9 @@ class LoginForm(forms.Form):
 
     def clean_email(self):
         email = self.cleaned_data.get("email")
-        if not email.endswith("edu"):
+        if validate_email(email):
             raise forms.ValidationError('This not valid email')
+
         return email
     
 
@@ -38,6 +39,6 @@ class RegisterForm(forms.Form):
 
     def clean_email(self):
         email = self.cleaned_data.get("email")
-        if not email.endswith("edu"):
+        if validate_email(email):
             raise forms.ValidationError('This not valid email')
         return email
