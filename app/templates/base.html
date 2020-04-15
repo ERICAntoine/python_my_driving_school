@@ -1,22 +1,28 @@
 <head>
     {% block extra_head %} {% endblock %}
     {% load static %}
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
     <link rel='stylesheet' type='text/css' href="{% static '/bootstrap/dist/css/bootstrap.min.css' %}" />
     <script src="{% static '/jquery/dist/jquery.min.js' %}"></script>
     <title>{% block title %}My amazing index{% endblock %}</title>
 </head>
 
+<header>
+    <div class='container'>
+        <div class='d-flex justify-content-center mb-5 border-bottom border-dark'><h1>AUTO-ECOLE</h1></div>
+    </div>
+</header>
 <body>
     <div class="container-fluid">
         <div class="row">
-                {% if user.is_authenticated %}
-                    {% block content %}
-                    {% endblock %}
-                {% else %}
-                    {% block log %}
-                        <a href="/app/login">Login here</a>
-                    {% endblock %}
-                {% endif %}
+            {% if user.is_authenticated %}
+                {% block content %}
+                {% endblock %}
+            {% else %}
+                {% block log %}
+                    <a href="/app/login">Login here</a>
+                {% endblock %}
+            {% endif %}
         </div>
     </div>
 </body>

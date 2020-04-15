@@ -3,19 +3,25 @@
 {% load crispy_forms_tags %}
 
 {% block log %}
-<form method='post'>
-    {% csrf_token %}
-    <div class="form group">
-        {{ form.email.errors }}
-        <label for="{{ form.email.id_for_label }}"> Email: </label>
-        {{ form.email }}
-    </div>
-    <div class="form group">
-        {{ form.password.errors }}
-        <label for="{{ form.password.id_for_label }}"> Password: </label>
-        {{ form.password }}
-    </div>
+<div class='container'>
+    <div class='d-flex justify-content-center'>
+        <form method='post'>
+            {% csrf_token %}
 
-    <button type="submit" class="btn btn-success">Login</button>
-</form>
+            <div class="form group mb-3">
+                {{ form.email.errors }}
+                <label for="{{ form.email.id_for_label }}"> Email: </label>
+                {{ form.email }}
+            </div>
+            <div class="form group mb-3">
+                {{ form.password.errors }}
+                <label for="{{ form.password.id_for_label }}"> Password: </label>
+                {{ form.password }}
+            </div>
+
+            <button type="submit" class="btn btn-success">Login</button>
+
+        </form>
+    </div>
+</div>
 {% endblock %}
