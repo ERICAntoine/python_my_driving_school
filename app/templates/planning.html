@@ -5,13 +5,25 @@
 {% block extra_head %}
     <link rel='stylesheet' type='text/css' href="https://unpkg.com/@fullcalendar/core@4.4.0/main.min.css"/>
     <link rel='stylesheet' type='text/css' href="https://unpkg.com/@fullcalendar/daygrid@4.4.0/main.min.css"/>
+    <link rel='stylesheet' type='text/css' href="https://unpkg.com/@fullcalendar/timegrid@4.4.0/main.min.css"/>
+    <link rel='stylesheet' type='text/css' href='https://unpkg.com/@fullcalendar/list@4.4.0/main.min.css'/>
     <script src="https://cdn.jsdelivr.net/npm/@fullcalendar/core@4.4.0/main.min.js"></script>
-    <script src="https://unpkg.com/@fullcalendar/interaction@4.4.0/main.min.js"></script>
     <script src="https://unpkg.com/@fullcalendar/daygrid@4.4.0/main.min.js"></script>
+    <script src="https://unpkg.com/@fullcalendar/timegrid@4.4.0/main.min.js"></script>
+    <script src="https://unpkg.com/@fullcalendar/list@4.4.0/main.min.js"></script>
+    <script src="https://unpkg.com/@fullcalendar/interaction@4.4.0/main.min.js"></script>
 {% endblock %}
 
 
 {% block content %}
+
+
+<form method='post'>
+    {% csrf_token %}
+    {{form}}
+    </div>
+    <button type="submit" class="btn btn-success">Send</button>
+</form>
 
 
 <div id="calendar"></div>
@@ -24,14 +36,14 @@
         var calendarEl = document.getElementById('calendar');
 
         var calendar = new FullCalendar.Calendar(calendarEl, {
-          plugins: [ 'dayGrid','interaction' ],
-          dateClick: function(info) {
-            alert('Clicked on: ' + info.dateStr);
-            alert('Coordinates: ' + info.jsEvent.pageX + ',' + info.jsEvent.pageY);
-            alert('Current view: ' + info.view.type);
-            // change the day's background color just for fun
-            info.dayEl.style.backgroundColor = 'red';
-          }
+          plugins: [ 'dayGrid','interaction', 'timeGrid', 'list' ],
+          locale: 'fr',
+          header: {
+            left: 'prev, next today',
+            center: 'title',
+            right: 'dayGridMonth, timeGridWeek, list'
+          },
+          defaultView: 'timeGridWeek'
         });
 
         calendar.render();

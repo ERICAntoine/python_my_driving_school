@@ -93,5 +93,6 @@ class Planning(models.Model):
     date_end = models.DateTimeField()
     instructor = models.ForeignKey(Users, on_delete=models.CASCADE, related_name="instructor")
     student = models.ForeignKey(Users, on_delete=models.CASCADE, related_name="student")
+    title = models.CharField(max_length=100)
 
 

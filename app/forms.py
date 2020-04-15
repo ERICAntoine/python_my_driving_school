@@ -2,9 +2,6 @@ from django import forms
 from django.core.validators import validate_email
 from .models import Role, Users
 
-
-Role.objects.all()
-
 STATES = (
     ('', 'Choose...'),
     ('MG', 'Minas Gerais'),
@@ -22,7 +19,6 @@ class LoginForm(forms.Form):
             raise forms.ValidationError('This not valid email')
 
         return email
-    
 
 class RegisterForm(forms.Form):
     firstname = forms.CharField(max_length=100)
@@ -42,3 +38,22 @@ class RegisterForm(forms.Form):
         if validate_email(email):
             raise forms.ValidationError('This not valid email')
         return email
+
+class PlanningForm(forms.Form):
+    title = forms.CharField(max_length=100)
+    date_start = forms.DateTimeField(widget=forms.DateTimeInput(attrs={'placeholder': 'y-m-d h:m'}))
+    date_end = forms.DateTimeField(widget=forms.DateTimeInput(attrs={'placeholder': 'y-m-d h:m'}))
+    instructor = forms.ModelChoiceField(
+        queryset=None
+    )
+    student = forms.ModelChoiceField(
+        queryset=None
+    )
+     
+    def __init__(self, user, *args, **kwargs):
+        super(PlanningForm, self).__init__(*args, **kwargs)
+        if user.role.id == 2:
+            self.fields['instructor'].queryset = Users.objects.filter(id=user.id)
+        else:
+            self.fields['instructor'].queryset = Users.objects.filter(role="2")
+        self.fields['student'].queryset = Users.objects.filter(role="1")
