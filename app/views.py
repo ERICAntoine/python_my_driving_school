@@ -8,7 +8,7 @@ from .forms import LoginForm, RegisterForm, PlanningForm
 from django.shortcuts import redirect
 from django.contrib.auth import authenticate, login as auth_login
 from django.utils.http import is_safe_url
-
+from django.db.models import Q
 
 # Create your views here.
 
@@ -95,9 +95,21 @@ def planningUpdate(request):
         end = request.POST.get('end')
         instructor = request.POST.get('instructor')
         student = request.POST.get('student')
-        try: 
-            event = Event.objects.filter(id=id).update(title=title, start=start, end=end, instructor=instructor, student=student)
-            if event:
-                return HttpResponse("good");
-        except:
+# Event.objects.filter(student=student, start__range=[start, end]) and Event.objects.filter(student=student, end__range=[start, end])
+        if Event.objects.filter(instructor=instructor, start__range=[start, end]):
+            print('ok')
             return HttpResponse("il y a deja un event à cette endroit ou la date est antérieur");
+        else:
+            try:
+                event = Event.objects.filter(id=id).update(title=title, start=start, end=end, instructor=instructor, student=student)
+                if event:
+                    return HttpResponse("good");
+            except:
+                return HttpResponse("il y a deja un event à cette endroit ou la date est antérieur");
+
+def manageAccount(request):
+    context = {
+        "user": Users.objects.all(),
+        "form": RegisterForm
+    }
+    return render(request, 'manageAccount.html', context)
