@@ -13,13 +13,17 @@
                 <label for="{{ form.email.id_for_label }}"> Email: </label>
                 {{ form.email }}
             </div>
+
             <div class="form group mb-3">
                 {{ form.password.errors }}
                 <label for="{{ form.password.id_for_label }}"> Password: </label>
                 {{ form.password }}
             </div>
 
+            
             <button type="submit" class="btn btn-success">Login</button>
+
+            <a href='/app/register' class='text-secondary font-italic'>Pas de compte ?</a>
 
         </form>
     </div>
