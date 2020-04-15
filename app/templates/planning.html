@@ -12,6 +12,8 @@
     <script src="https://unpkg.com/@fullcalendar/timegrid@4.4.0/main.min.js"></script>
     <script src="https://unpkg.com/@fullcalendar/list@4.4.0/main.min.js"></script>
     <script src="https://unpkg.com/@fullcalendar/interaction@4.4.0/main.min.js"></script>
+    <script src="/static/js/calendar.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
 {% endblock %}
 
 
@@ -33,19 +35,48 @@
 
 <script type='text/javascript'>
   document.addEventListener('DOMContentLoaded', function() {
+        const events = parseObject(JSON.parse('{{events|safe}}'));
+        console.log(events)
         var calendarEl = document.getElementById('calendar');
 
         var calendar = new FullCalendar.Calendar(calendarEl, {
-          plugins: [ 'dayGrid','interaction', 'timeGrid', 'list' ],
-          locale: 'fr',
-          header: {
-            left: 'prev, next today',
-            center: 'title',
-            right: 'dayGridMonth, timeGridWeek, list'
-          },
-          defaultView: 'timeGridWeek'
-        });
+        	plugins: [ 'dayGrid','interaction', 'timeGrid', 'list' ],
+        	locale: 'fr',
+        	header: {
+        	  left: 'prev, next today',
+        	  center: 'title',
+        	  right: 'dayGridMonth, timeGridWeek, list'
+        	},
+        	defaultView: 'timeGridWeek',
+        	events: events,
+        	nowIndicator: true,
+        	editable: true,
+        	eventDrop: (date) => {
+        		if(!confirm("Etes vous sur de vouloir déplacer cette evenement")){
+        		  date.revert()
+        		} else {
+					const start = moment(new Date(date.event.start)).format()
+					const end = moment(new Date(date.event.end)).format()
+					const eventData = {
+					"id": date.event.extendedProps.idPlanning,
+					"start": start,
+					"end": end,
+					"title": date.event.title,
+					"instructor": date.event.extendedProps.instructor,
+					"student": date.event.extendedProps.student
+					}
+					updatePlanning(eventData)
+           		}
 
+          	},
+			eventResize: (date) => {
+				if(!confirm("Etes vous sur de vouloir déplacer cette evenement")){
+				date.revert()
+				} else {
+
+            	}
+          	}
+        });
         calendar.render();
       });
 </script>

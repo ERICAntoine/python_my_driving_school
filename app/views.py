@@ -1,5 +1,7 @@
 from django.shortcuts import render, HttpResponse
-from .models import Users, Planning as AddEvent, Role
+from django.http import JsonResponse
+from django.core import serializers
+from .models import Users, Planning as Event, Role
 from django.template import loader
 from django.contrib.auth.hashers import make_password, check_password
 from .forms import LoginForm, RegisterForm, PlanningForm
@@ -19,21 +21,23 @@ def index(request):
 
 def planning(request):
     user = request.user
-    context = { 'form': PlanningForm(user) }
+    events = serializers.serialize('json',Event.objects.all())
+    context = { 'form': PlanningForm(user), 'events': events }
+    
 
     if request.method == 'POST':
         form = PlanningForm(user, request.POST)
 
         if form.is_valid():
             title = request.POST.get('title')
-            date_start = request.POST.get('date_start')
-            date_end = request.POST.get('date_end')
+            start = request.POST.get('start')
+            end = request.POST.get('end')
             instructor = request.POST.get('instructor')
             student = request.POST.get('student')
-            planning = AddEvent()
+            planning = Event()
             planning.title= title
-            planning.date_start = date_start
-            planning.date_end = date_end
+            planning.start = start
+            planning.end = end
             planning.instructor = Users.objects.get(id=instructor)
             planning.student = Users.objects.get(id=student)
             planning.save()
@@ -82,3 +86,18 @@ def register(request):
            
         context['form'] = form 
     return render(request, 'registration/register.html', context)
+
+def planningUpdate(request):
+    if request.method == 'POST':
+        id = request.POST.get('id')
+        title = request.POST.get('title')
+        start = request.POST.get('start')
+        end = request.POST.get('end')
+        instructor = request.POST.get('instructor')
+        student = request.POST.get('student')
+        try: 
+            event = Event.objects.filter(id=id).update(title=title, start=start, end=end, instructor=instructor, student=student)
+            if event:
+                return HttpResponse("good");
+        except:
+            return HttpResponse("il y a deja un event à cette endroit ou la date est antérieur");

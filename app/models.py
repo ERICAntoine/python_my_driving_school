@@ -89,8 +89,8 @@ class Users(AbstractBaseUser):
 
 
 class Planning(models.Model):
-    date_start = models.DateTimeField()
-    date_end = models.DateTimeField()
+    start = models.DateTimeField()
+    end = models.DateTimeField()
     instructor = models.ForeignKey(Users, on_delete=models.CASCADE, related_name="instructor")
     student = models.ForeignKey(Users, on_delete=models.CASCADE, related_name="student")
     title = models.CharField(max_length=100)
