@@ -3,6 +3,7 @@
 {% block title %}My amazing planning{% endblock %}
 
 {% block extra_head %}
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.0/jquery.min.js'></script>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
     <link rel='stylesheet' type='text/css' href="https://unpkg.com/@fullcalendar/core@4.4.0/main.min.css"/>
     <link rel='stylesheet' type='text/css' href="https://unpkg.com/@fullcalendar/daygrid@4.4.0/main.min.css"/>
@@ -24,7 +25,7 @@
     {% if user.role.id == 3 %}
         <a href='/app/manageAccount'><button class="btn btn-warning">All Students</button></a>
     {% endif %}
-    <div class='d-flex justify-content-end'><a href='/logout'><button class="btn btn-danger mb-4">Logout</button></a></div>
+    <div class='d-flex justify-content-end'><a href='/app/logout'><button class="btn btn-danger mb-4">Logout</button></a></div>
 	{% if user.role.id > 1 %}
 		<form method='post'>
 			{% csrf_token %}

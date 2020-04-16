@@ -6,7 +6,7 @@ from django.template import loader
 from django.contrib.auth.hashers import make_password, check_password
 from .forms import LoginForm, RegisterForm, PlanningForm, ProfileForm
 from django.shortcuts import redirect
-from django.contrib.auth import authenticate, login as auth_login
+from django.contrib.auth import authenticate, login as auth_login, logout
 from django.utils.http import is_safe_url
 from django.db.models import Q
 from django.contrib.auth.decorators import permission_required
@@ -224,3 +224,7 @@ def bad_request(message):
         content_type='application/json')
     response.status_code = 400
     return response
+
+def logoutAccount(request):
+    logout(request)
+    return redirect('/app/login')
