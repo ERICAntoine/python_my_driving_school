@@ -10,8 +10,8 @@ STATES = (
 )
 
 class LoginForm(forms.Form):
-    email = forms.EmailField(widget=forms.TextInput(attrs={'placeholder': 'Email'}))
-    password = forms.CharField(widget=forms.PasswordInput())
+    email = forms.EmailField(widget=forms.TextInput(attrs={'placeholder': 'Email', 'class': 'form-control'}))
+    password = forms.CharField(widget=forms.PasswordInput(attrs={'placeholder': 'Password', 'class': 'form-control'}))
 
     def clean_email(self):
         email = self.cleaned_data.get("email")
@@ -21,12 +21,13 @@ class LoginForm(forms.Form):
         return email
 
 class RegisterForm(forms.Form):
-    firstname = forms.CharField(max_length=100)
-    lastname = forms.CharField(max_length=100)
-    email = forms.EmailField(widget=forms.TextInput(attrs={'placeholder': 'Email'}))
-    password = forms.CharField(widget=forms.PasswordInput())
+    firstname = forms.CharField(widget=forms.TextInput(attrs={'placeholder': 'Firstname', 'class': 'form-control'}))
+    lastname = forms.CharField(widget=forms.TextInput(attrs={'placeholder': 'Lastname', 'class': 'form-control'}))
+    email = forms.EmailField(widget=forms.TextInput(attrs={'placeholder': 'Email', 'class': 'form-control'}))
+    password = forms.CharField(widget=forms.PasswordInput(attrs={'placeholder': 'Password', 'class': 'form-control'}))
     role = forms.ModelChoiceField(
-        queryset=None
+        queryset=None,
+        widget=forms.Select(attrs={'class': 'form-control'})
     )
 
     def __init__(self, *args, **kwargs):
@@ -44,10 +45,13 @@ class PlanningForm(forms.Form):
     start = forms.DateTimeField(widget=forms.DateTimeInput(attrs={'placeholder': 'y-m-d h:m'}))
     end = forms.DateTimeField(widget=forms.DateTimeInput(attrs={'placeholder': 'y-m-d h:m'}))
     instructor = forms.ModelChoiceField(
-        queryset=None
+        queryset=None,
+        widget=forms.Select(attrs={'class': 'form-control'})
     )
     student = forms.ModelChoiceField(
-        queryset=None
+        queryset=None,
+        widget=forms.Select(attrs={'class': 'form-control'})
+
     )
      
     def __init__(self, user, *args, **kwargs):
@@ -70,7 +74,7 @@ class ProfileForm(forms.ModelForm):
 
         firstname = forms.CharField(max_length=100)
         lastname = forms.CharField(max_length=100)
-        email = forms.EmailField(widget=forms.TextInput(attrs={'placeholder': 'Email'}))
+        email = forms.EmailField(widget=forms.TextInput(attrs={'placeholder': 'Email', 'class': 'form-control'}))
         password = forms.CharField(widget=forms.PasswordInput(), required=False)
         role = forms.ModelChoiceField(
             queryset=None

@@ -3,17 +3,21 @@
 {% load crispy_forms_tags %}
 
 {% block log %}
-<div class='container d-flex justify-content-center'>
-	<form method='post'>
-	    {% csrf_token %}
-	 
-	    <div class='mb-3'>Firstname: {{form.firstname}}</div>
-	    <div class='mb-3'>Lastname: {{form.lastname}}</div>
-	    <div class='mb-3'>Email: {{form.email}}</div>
-	    <div class='mb-3'>Password: {{form.password}}</div>
-	    <div class='mb-4'>Role: {{form.role}}</div>
-    	<button type="submit" class="btn btn-success">Login</button>
+    <div class='d-flex justify-content-center h-100 align-items-center'>
+	    <div class="container">
+			<form class="card p-5" method='post'>
+				{% csrf_token %}
+				<div class="card-title" style="font-size: 30px; font-style: italic; font-weight: 600;text-align: center;">
+                    Auto-Ecole
+                </div>
+				<div class='mb-3'>Firstname: {{form.firstname}}</div>
+				<div class='mb-3'>Lastname: {{form.lastname}}</div>
+				<div class='mb-3'>Email: {{form.email}}</div>
+				<div class='mb-3'>Password: {{form.password}}</div>
+				<div class='mb-4'>Role: {{form.role}}</div>
+				<button type="submit" class="btn btn-success">Enregistrer</button>
 
-	</form>
+			</form>
+		</div>
 </div>
 {% endblock %}

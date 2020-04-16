@@ -2,35 +2,34 @@
     {% block extra_head %} {% endblock %}
     {% load static %}
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;1,100;1,300;1,400&display=swap" rel="stylesheet">
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     <link rel='stylesheet' type='text/css' href="{% static '/bootstrap/dist/css/bootstrap.min.css' %}" />
     <script src="{% static '/jquery/dist/jquery.min.js' %}"></script>
     <title>{% block title %}My amazing index{% endblock %}</title>
 </head>
 
-<header>
-    <div class='container'>
-        <div class='d-flex justify-content-center mb-4 border-bottom border-dark'><h1>AUTO-ECOLE</h1></div>
-        <div class='d-flex justify-content-end'><a href='/app/logout'><button class="btn btn-danger mb-1">Logout</button></a></div>
-        {% if user.is_authenticated %}
-            <div class='d-flex justify-content-center mb-4'><h4>Hello {{user.firstname}} [{{user.role.name}}]</h4></div>
-        {% endif %}
-        {% if user.role.id > 2 %}
-            <a href='/app/manageAccount'><button class="btn btn-warning">All Students</button></a>
-        {% endif %}
-    </div>
-</header>
-<body>
-    <div class="container-fluid">
+<body style="font-family: Roboto; background: linear-gradient(135deg, hsla(16.92, 100%, 90.12%, 1) 0%, hsla(16.92, 100%, 90.12%, 0) 70%), linear-gradient(25deg, hsla(225.9, 0%, 53.72%, 1) 10%, hsla(225.9, 0%, 53.72%, 0) 80%), linear-gradient(315deg, hsla(122.16, 0%, 45.66%, 1) 15%, hsla(122.16, 0%, 45.66%, 0) 80%), linear-gradient(245deg, hsla(354.76, 45.73%, 87.54%, 1) 100%, hsla(354.76, 45.73%, 87.54%, 0) 70%);">
+    {% if user.is_authenticated %}
+        <header>
+            <div class='container'>
+                <div class='d-flex justify-content-center mb-4 border-bottom border-dark'><h1>AUTO-ECOLE</h1></div>
+                <div class='d-flex justify-content-end'><a href='/app/logout'><button class="btn btn-danger mb-1">Logout</button></a></div>
+                <div class='d-flex justify-content-center mb-4'><h4>Hello {{user.firstname}} [{{user.role.name}}]</h4></div>
+                {% if user.role.id > 2 %}
+                    <a href='/app/manageAccount'><button class="btn btn-warning">All Students</button></a>
+                {% endif %}
+            </div>
+        </header>
         <div class="row">
-            {% if user.is_authenticated %}
-                {% block content %}
-                {% endblock %}
-            {% else %}
-                {% block log %}
-                    <a href="/app/login">Login here</a>
-                {% endblock %}
-            {% endif %}
+            {% block content %}
+            {% endblock %}
         </div>
-    </div>
+        {% else %}
+            {% block log %}
+                <div class="row text-center">
+                    <a class="w-100 text-center" href="/app/login">Login here</a>
+                </div>
+            {% endblock %}
+    {% endif %}
 </body>

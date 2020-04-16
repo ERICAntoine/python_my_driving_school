@@ -3,29 +3,31 @@
 {% load crispy_forms_tags %}
 
 {% block log %}
-<div class='container'>
-    <div class='d-flex justify-content-center'>
-        <form method='post'>
-            {% csrf_token %}
+    <div class='d-flex justify-content-center h-100 align-items-center'>
+        <div class="container">
+            <form class="card p-5" method='post'>
+                {% csrf_token %}
+                <div class="card-title" style="font-size: 30px; font-style: italic; font-weight: 600;text-align: center;">
+                    Auto-Ecole
+                </div>
+                <div class="form group mb-3">
+                    {{ form.email.errors }}
+                    <label for="{{ form.email.id_for_label }}"> Email: </label>
+                    {{ form.email }}
+                </div>
 
-            <div class="form group mb-3">
-                {{ form.email.errors }}
-                <label for="{{ form.email.id_for_label }}"> Email: </label>
-                {{ form.email }}
-            </div>
+                <div class="form group mb-3">
+                    {{ form.password.errors }}
+                    <label for="{{ form.password.id_for_label }}"> Password: </label>
+                    {{ form.password }}
+                </div>
 
-            <div class="form group mb-3">
-                {{ form.password.errors }}
-                <label for="{{ form.password.id_for_label }}"> Password: </label>
-                {{ form.password }}
-            </div>
+                
+                <button type="submit" class="btn btn-success">Connecte-toi</button>
 
-            
-            <button type="submit" class="btn btn-success">Login</button>
+                <a href='/app/register' class='text-secondary font-italic'>Pas de compte ?</a>
 
-            <a href='/app/register' class='text-secondary font-italic'>Pas de compte ?</a>
-
-        </form>
+            </form>
+        </div>
     </div>
-</div>
 {% endblock %}
