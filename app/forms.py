@@ -52,20 +52,29 @@ class PlanningForm(forms.Form):
      
     def __init__(self, user, *args, **kwargs):
         super(PlanningForm, self).__init__(*args, **kwargs)
+        print(user)
         if user.role.id == 2:
             self.fields['instructor'].queryset = Users.objects.filter(id=user.id)
         else:
             self.fields['instructor'].queryset = Users.objects.filter(role="2")
-        self.fields['student'].queryset = Users.objects.filter(role="1")
+        if user.role.id == 1:
+            self.fields['student'].queryset = Users.objects.filter(id=user.id)
+        else:
+            self.fields['student'].queryset = Users.objects.filter(role="1")
 
-class ProfileForm(forms.Form):
-    firstname = forms.CharField(max_length=100)
-    lastname = forms.CharField(max_length=100)
-    email = forms.EmailField(widget=forms.TextInput(attrs={'placeholder': 'Email'}))
-    password = forms.CharField(widget=forms.PasswordInput())
-    role = forms.ModelChoiceField(
-        queryset=None
-    )
+
+class ProfileForm(forms.ModelForm):
+    class Meta:
+        model = Users
+        fields = ['firstname', 'lastname', 'email', "role"]
+
+        firstname = forms.CharField(max_length=100)
+        lastname = forms.CharField(max_length=100)
+        email = forms.EmailField(widget=forms.TextInput(attrs={'placeholder': 'Email'}))
+        password = forms.CharField(widget=forms.PasswordInput(), required=False)
+        role = forms.ModelChoiceField(
+            queryset=None
+        )
 
     def __init__(self, *args, **kwargs):
         super(ProfileForm, self).__init__(*args, **kwargs)
