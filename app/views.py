@@ -206,7 +206,9 @@ def profileDelete(request, userID):
     if user.role.id > 2:
         id = request.POST.get('id')
         try:
-            Users.objects.filter(id=id).delete()
+            u = Users.objects.filter(id=userID)
+            u.is_active = False
+            u.save()
             return HttpResponse('good')
         except:
             return bad_request("Le profil n'existe pas")
