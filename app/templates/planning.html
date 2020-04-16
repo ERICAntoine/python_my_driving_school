@@ -22,25 +22,26 @@
 
 <div class='container'>
     <a href='/app/manageAccount'><button class="btn btn-warning">All Students</button></a>
-
     <div class='d-flex justify-content-end'><a href='/logout'><button class="btn btn-danger mb-4">Logout</button></a></div>
-    <form method='post'>
-        {% csrf_token %}
+	{% if user.role.id > 1 %}
+		<form method='post'>
+			{% csrf_token %}
 
-        <div class='container mb-5 border-bottom border-dark'>
-            <div class='d-flex justify-content-center'>        
-                <div class='mb-3 ml-1'><p>Tittle:</p> {{form.title}}</div>
-                <div class='mb-3 ml-1'><p>Date de début:</p> {{form.date_start}}</div>
-                <div class='mb-3 ml-1'><p>Date de fin:</p> {{form.date_end}}</div>
-            </div>
-            <div class='d-flex justify-content-center'>
-                <div class='mb-3 ml-1'><p>Instructor:</p> {{form.instructor}}</div>
-                <div class='mb-4 ml-1'><p>Student:</p> {{form.student}}</div>
-            </div>
+			<div class='container mb-5 border-bottom border-dark'>
+				<div class='d-flex justify-content-center'>        
+					<div class='mb-3 ml-1'><p>Tittle:</p> {{form.title}}</div>
+					<div class='mb-3 ml-1'><p>Date de début:</p> {{form.start}}</div>
+					<div class='mb-3 ml-1'><p>Date de fin:</p> {{form.end}}</div>
+				</div>
+				<div class='d-flex justify-content-center'>
+					<div class='mb-3 ml-1'><p>Instructor:</p> {{form.instructor}}</div>
+					<div class='mb-4 ml-1'><p>Student:</p> {{form.student}}</div>
+				</div>
 
-            <div><button href='/logout' type="submit" class="btn btn-success mb-3">Send</button></div>
-        </div>
-    </form>
+				<div><button href='/logout' type="submit" class="btn btn-success mb-3">Send</button></div>
+			</div>
+		</form>
+	{% endif %}
 
     <div class='container mt-5 mb-5'>
         <div id="calendar"></div>
@@ -49,51 +50,7 @@
 </div>
 
 <script type='text/javascript'>
-  document.addEventListener('DOMContentLoaded', function() {
-        const events = parseObject(JSON.parse('{{events|safe}}'));
-        console.log(events)
-        var calendarEl = document.getElementById('calendar');
-
-        var calendar = new FullCalendar.Calendar(calendarEl, {
-        	plugins: [ 'dayGrid','interaction', 'timeGrid', 'list' ],
-        	locale: 'fr',
-        	header: {
-        	  left: 'prev, next today',
-        	  center: 'title',
-        	  right: 'dayGridMonth, timeGridWeek, list'
-        	},
-        	defaultView: 'timeGridWeek',
-        	events: events,
-        	nowIndicator: true,
-        	editable: true,
-        	eventDrop: (date) => {
-        		if(!confirm("Etes vous sur de vouloir déplacer cette evenement")){
-        		  date.revert()
-        		} else {
-					const start = moment(new Date(date.event.start)).format()
-					const end = moment(new Date(date.event.end)).format()
-					const eventData = {
-					"id": date.event.extendedProps.idPlanning,
-					"start": start,
-					"end": end,
-					"title": date.event.title,
-					"instructor": date.event.extendedProps.instructor,
-					"student": date.event.extendedProps.student
-					}
-					updatePlanning(eventData)
-           		}
-
-          	},
-			eventResize: (date) => {
-				if(!confirm("Etes vous sur de vouloir déplacer cette evenement")){
-				date.revert()
-				} else {
-
-            	}
-          	}
-        });
-        calendar.render();
-      });
+  calendar('{{events|safe}}')
 </script>
 
 {% endblock %}

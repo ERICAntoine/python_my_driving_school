@@ -1,0 +1,31 @@
+{% if user.id == userID or user.role.id == 3 %}
+    {% block extra_head %}
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+        <link rel='stylesheet' type='text/css' href="https://unpkg.com/@fullcalendar/core@4.4.0/main.min.css"/>
+        <link rel='stylesheet' type='text/css' href="https://unpkg.com/@fullcalendar/daygrid@4.4.0/main.min.css"/>
+        <link rel='stylesheet' type='text/css' href="https://unpkg.com/@fullcalendar/timegrid@4.4.0/main.min.css"/>
+        <link rel='stylesheet' type='text/css' href='https://unpkg.com/@fullcalendar/list@4.4.0/main.min.css'/>
+        <script src="https://cdn.jsdelivr.net/npm/@fullcalendar/core@4.4.0/main.min.js"></script>
+        <script src="https://unpkg.com/@fullcalendar/daygrid@4.4.0/main.min.js"></script>
+        <script src="https://unpkg.com/@fullcalendar/timegrid@4.4.0/main.min.js"></script>
+        <script src="https://unpkg.com/@fullcalendar/list@4.4.0/main.min.js"></script>
+        <script src="https://unpkg.com/@fullcalendar/interaction@4.4.0/main.min.js"></script>
+        <script src="/static/js/calendar.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
+    {% endblock %}
+    <div class="">
+    	<form method='post' action="/app/profile/{{userID}}">
+	        {% csrf_token %}
+            {{formProfile}}
+            <button type="submit" class="btn btn-success">Send</button>
+        </form>
+    </div>
+    <div class="">{{formEvent}}</div>
+    <div id="calendar"></div>
+    <script type='text/javascript'>
+        calendar('{{events|safe}}')
+    </script>
+
+{% else %}
+    <div class="">{{profile}}</div>
+{% endif %}
