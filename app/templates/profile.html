@@ -30,7 +30,7 @@
     <div class="container d-flex justify-content-center border-bottom border-dark mb-5">
     	<form method='post' action="/app/profile/{{userID}}">
 	        {% csrf_token %}
-            <h4 class='mb-4'>Ajouter un utilisateur</h4>
+            <h4 class='mb-4'>Modifier l'utilisateur </h4>
             <div class='mb-3'>Firstname: {{formProfile.firstname}}</div>
             <div class='mb-3'>Lastname: {{formProfile.lastname}}</div>
             <div class='mb-3'>Email: {{formProfile.email}}</div>
