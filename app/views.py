@@ -45,13 +45,20 @@ def planning(request):
             end = request.POST.get('end')
             instructor = request.POST.get('instructor')
             student = request.POST.get('student')
-            planning = Event()
-            planning.instructor = Users.objects.get(id=instructor)
-            planning.student = Users.objects.get(id=student)
-            planning.title = title + " entre Instructeur " + planning.instructor.email + " et Etudiant " + planning.student.email
-            planning.start = start
-            planning.end = end
-            planning.save()
+            if Event.objects.filter(instructor=instructor,start__range=(start, end)).exclude(id=id) or Event.objects.filter(instructor=instructor, end__range=(start, end)).exclude(id=id):
+                form.add_error("start",'Cette date est deja prise par vous ou un autre instructeur.')
+                context['form'] = form 
+            elif Event.objects.filter(student=student, start__range=(start, end)).exclude(id=id) or Event.objects.filter(student=student, end__range=(start, end)).exclude(id=id):
+                form.add_error("start",'Cette date est deja prise par vous ou un autre instructeur.')
+                context['form'] = form 
+            else:
+                planning = Event()
+                planning.instructor = Users.objects.get(id=instructor)
+                planning.student = Users.objects.get(id=student)
+                planning.title = title + " entre Instructeur " + planning.instructor.email + " et Etudiant " + planning.student.email
+                planning.start = start
+                planning.end = end
+                planning.save()
         else:
             context['form'] = form 
 
@@ -109,31 +116,6 @@ def planningUpdate(request):
             instructor = request.POST.get('instructor')
             student = request.POST.get('student')
 
-            # test = Event.objects.filter(instructor=instructor, end__lt=end, start__gt=start)
-            # test2 = Event.objects.filter(student=student).exclude(id=id)
-            # test3 = Event.objects.filter(student=student, start__range=(start, end)).exclude(id=id)
-            # test4 = Event.objects.filter(student=student, end__range=(start, end)).exclude(id=id)
-
-
-            # print(test)
-            # print(test2)
-            # print(test3)
-            # print(test4)
-
-            # for perso in test2:
-            #     if datetime.strptime(start,"%Y-%m-%dT%H:%M:%S") > perso.start and datetime.strptime(end,"%Y-%m-%dT%H:%M:%S") > perso.end:
-            #         print("je suis entre les deux")
-            #     elif datetime.strptime(start,"%Y-%m-%dT%H:%M:%S") < perso.start and datetime.strptime(end,"%Y-%m-%dT%H:%M:%S") > perso.end:
-            #         print("je suis la")
-
-            #     print(perso.start)
-            #     print(perso.end)
-
-            # for person in test:
-            #     print(person.start)
-            #     print(person.end)
-            #Event.objects.filter(instructor=instructor, start__lt=start, end__gt=end).exclude(id=id)
-
             if Event.objects.filter(instructor=instructor,start__range=(start, end)).exclude(id=id) or Event.objects.filter(instructor=instructor, end__range=(start, end)).exclude(id=id):
                 #raise Http404("L'instructor a deja un cours ici")
                 return bad_request("L'instructor a deja un cours ici")
@@ -156,7 +138,13 @@ def manageAccount(request):
     user = request.user
     if user.role.id == 3:
         context = {
-            "users": Users.objects.all(),
+            "users": Users.objects.all().exclude(role=3),
+            "form": RegisterForm
+        }
+        return render(request, 'manageAccount.html', context)
+    elif user.role.id == 4:
+        context = {
+            "users": Users.objects.all().exclude(role=4),
             "form": RegisterForm
         }
         return render(request, 'manageAccount.html', context)
@@ -176,7 +164,7 @@ def profile(request, userID):
         except:
             events = {}
         
-    formEvent = PlanningForm(request.user)
+    formEvent = PlanningForm(user)
     formProfile = ProfileForm(initial={
         "firstname": user.firstname,
         "lastname": user.lastname,
@@ -191,6 +179,13 @@ def profile(request, userID):
         "events": events,
         "formEvent": formEvent
     }
+
+    if request.method == 'POST':
+        form = ProfileForm(data=request.POST, instance=user)
+        if form.is_valid():
+            form.save()
+    
+
     return render(request, 'profile.html', context)
 
 def planningDelete(request):
@@ -205,6 +200,18 @@ def planningDelete(request):
                 return bad_request("L'event n'existe pas")
     else:
         return bad_request("L'event n'existe pas")
+
+def profileDelete(request, userID):
+    user = request.user
+    if user.role.id > 2:
+        id = request.POST.get('id')
+        try:
+            Users.objects.filter(id=id).delete()
+            return HttpResponse('good')
+        except:
+            return bad_request("Le profil n'existe pas")
+    else:
+        raise PermissionDenied
 
 
 

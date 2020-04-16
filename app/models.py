@@ -20,31 +20,6 @@ class UserManager(BaseUserManager):
         user.save(using=self._db)
         return user
 
-    # def create_staffuser(self, email, password):
-    #     """
-    #     Creates and saves a staff user with the given email and password.
-    #     """
-    #     user = self.create_user(
-    #         email,
-    #         password=password,
-    #     )
-    #     user.staff = True
-    #     user.save(using=self._db)
-    #     return user
-
-    # def create_superuser(self, email, password):
-    #     """
-    #     Creates and saves a superuser with the given email and password.
-    #     """
-    #     user = self.create_user(
-    #         email,
-    #         password=password,
-    #     )
-    #     user.staff = True
-    #     user.admin = True
-    #     user.save(using=self._db)
-    #     return user
-
 # Create your models here.
 
 class Role(models.Model):
@@ -85,8 +60,6 @@ class Users(AbstractBaseUser):
     @property
     def is_active(self):
         return self.active
-
-
 
 class Planning(models.Model):
     start = models.DateTimeField()

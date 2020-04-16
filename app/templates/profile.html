@@ -20,7 +20,13 @@
             <button type="submit" class="btn btn-success">Send</button>
         </form>
     </div>
-    <div class="">{{formEvent}}</div>
+    <div class="">
+        <form method="post" action="/app/planning/">
+            {% csrf_token %}
+            {{formEvent}}
+            <button type="submit" class="btn btn-success">Send</button>
+        </form>
+    </div>
     <div id="calendar"></div>
     <script type='text/javascript'>
         calendar('{{events|safe}}')
