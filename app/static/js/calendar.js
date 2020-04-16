@@ -39,13 +39,13 @@ function deletePlanning(id){
         .fail(function(e) {
             console.log(e)
             reject(false)
-            alert( "Tu es un eleve, tu ne peux pas supprimer un event." );
+            alert( "Tu es un eleve, tu ne peux pas supprimer un event.");
         })
     })
 }
 
 function calendar(e){
-
+    console.log(e)
     document.addEventListener('DOMContentLoaded', function() {
           const events = parseObject(JSON.parse(e));
           var calendarEl = document.getElementById('calendar');

@@ -40,6 +40,7 @@ def planning(request):
         form = PlanningForm(user, request.POST)
 
         if form.is_valid():
+            id = request.POST.get('id')
             title = request.POST.get('title')
             start = request.POST.get('start')
             end = request.POST.get('end')
@@ -155,15 +156,16 @@ def profile(request, userID):
     user = get_object_or_404(Users, pk=userID)
     if user.role.id == 1:
         try:
-            events = Event.objects.get(student=user.id)
+            events = Event.objects.filter(student=user.id)
         except:
             events = {}
     elif user.role.id == 2:
         try:
-            events = Event.objects.get(instructor=user.id)
+            events = Event.objects.filter(instructor=user.id)
         except:
             events = {}
-        
+    
+    events = serializers.serialize('json', events)
     formEvent = PlanningForm(user)
     formProfile = ProfileForm(initial={
         "firstname": user.firstname,
@@ -206,10 +208,9 @@ def profileDelete(request, userID):
     if user.role.id > 2:
         id = request.POST.get('id')
         try:
-            u = Users.objects.filter(id=userID)
-            u.is_active = False
-            u.save()
-            return HttpResponse('good')
+            u = Users.objects.get(id=userID)
+            u.delete()
+            return redirect("/app/manageAccount/")
         except:
             return bad_request("Le profil n'existe pas")
     else:

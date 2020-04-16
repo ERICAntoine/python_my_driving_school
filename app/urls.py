@@ -11,5 +11,4 @@ urlpatterns = [
     path('manageAccount/', views.manageAccount, name= 'manageAccount'),
     path('profile/<int:userID>', views.profile, name= 'profile'),
     path('profile/<int:userID>/delete', views.profileDelete, name= 'profile'),
-
 ]

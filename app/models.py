@@ -61,6 +61,7 @@ class Users(AbstractBaseUser):
     def is_active(self):
         return self.active
 
+
 class Planning(models.Model):
     start = models.DateTimeField()
     end = models.DateTimeField()
