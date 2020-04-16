@@ -13,7 +13,7 @@
 		<a href='/app/planning'><button class="btn btn-warning">Planning</button></a>
 	</div>
 <div class='container d-flex justify-content-center border-bottom border-dark mb-5'>
-	<form method='post'>
+	<form method='post' action="/app/register">
 	    {% csrf_token %}
 	 
 	    <div class='mb-3'>Firstname: {{form.firstname}}</div>
@@ -29,12 +29,13 @@
 
 
 <div class='container'>
-	{% for student in user%}
+
+	{% for student in user %}
 		<div class='d-flex'>
 			<h5>{{student.firstname}} {{student.lastname}}</h5>
 			<div class='ml-auto p-2 bd-highlight'>
-				<a href=''><button class="btn btn-success">Profile</button></a>
-				<a href=''><button class="btn btn-danger">Supprimer</button></a>
+				<a href='/app/profile/{{name.id}}'><button class="btn btn-success">Profile</button></a>
+				<a href='/app/profile/{{name.id}}/delete'><button class="btn btn-danger">Supprimer</button></a>
 			</div>
 		</div>
 	{% endfor %}

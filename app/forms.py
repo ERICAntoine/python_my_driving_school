@@ -41,8 +41,8 @@ class RegisterForm(forms.Form):
 
 class PlanningForm(forms.Form):
     title = forms.CharField(max_length=100)
-    date_start = forms.DateTimeField(widget=forms.DateTimeInput(attrs={'placeholder': 'y-m-d h:m'}))
-    date_end = forms.DateTimeField(widget=forms.DateTimeInput(attrs={'placeholder': 'y-m-d h:m'}))
+    start = forms.DateTimeField(widget=forms.DateTimeInput(attrs={'placeholder': 'y-m-d h:m'}))
+    end = forms.DateTimeField(widget=forms.DateTimeInput(attrs={'placeholder': 'y-m-d h:m'}))
     instructor = forms.ModelChoiceField(
         queryset=None
     )
@@ -57,3 +57,16 @@ class PlanningForm(forms.Form):
         else:
             self.fields['instructor'].queryset = Users.objects.filter(role="2")
         self.fields['student'].queryset = Users.objects.filter(role="1")
+
+class ProfileForm(forms.Form):
+    firstname = forms.CharField(max_length=100)
+    lastname = forms.CharField(max_length=100)
+    email = forms.EmailField(widget=forms.TextInput(attrs={'placeholder': 'Email'}))
+    password = forms.CharField(widget=forms.PasswordInput())
+    role = forms.ModelChoiceField(
+        queryset=None
+    )
+
+    def __init__(self, *args, **kwargs):
+        super(ProfileForm, self).__init__(*args, **kwargs)
+        self.fields['role'].queryset=Role.objects.all() 
