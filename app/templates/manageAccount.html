@@ -2,7 +2,7 @@
 
 {% block content %}
 
-<div class='container d-flex justify-content-center mb-5'>
+<div class='container card p-2 d-flex justify-content-center mb-5'>
 	<div class=' flex-column mt-3'>
 		<div class='mb-1'><h5>Firstname: {{user.firstname}}</h5></div>
 		<div class='mb-1'><h5>Lastname: {{user.lastname}}</h5></div>
@@ -11,7 +11,7 @@
 	</div>
 </div>
 
-<div class='container d-flex justify-content-center mb-5'>
+<div class='container card p-2 d-flex justify-content-center mb-5'>
 	<form method='post' action="/app/register">
 		<h3 class='mb-4'>Ajouter un utilisateur</h3>
 	    {% csrf_token %}
