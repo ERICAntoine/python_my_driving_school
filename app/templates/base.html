@@ -1,5 +1,18 @@
 <head>
-    {% block extra_head %} {% endblock %}
+    {% block extra_head %}
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+        <link rel='stylesheet' type='text/css' href="https://unpkg.com/@fullcalendar/core@4.4.0/main.min.css"/>
+        <link rel='stylesheet' type='text/css' href="https://unpkg.com/@fullcalendar/daygrid@4.4.0/main.min.css"/>
+        <link rel='stylesheet' type='text/css' href="https://unpkg.com/@fullcalendar/timegrid@4.4.0/main.min.css"/>
+        <link rel='stylesheet' type='text/css' href='https://unpkg.com/@fullcalendar/list@4.4.0/main.min.css'/>
+        <script src="https://cdn.jsdelivr.net/npm/@fullcalendar/core@4.4.0/main.min.js"></script>
+        <script src="https://unpkg.com/@fullcalendar/daygrid@4.4.0/main.min.js"></script>
+        <script src="https://unpkg.com/@fullcalendar/timegrid@4.4.0/main.min.js"></script>
+        <script src="https://unpkg.com/@fullcalendar/list@4.4.0/main.min.js"></script>
+        <script src="https://unpkg.com/@fullcalendar/interaction@4.4.0/main.min.js"></script>
+        <script src="/static/js/calendar.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
+    {% endblock %}
     {% load static %}
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;1,100;1,300;1,400&display=swap" rel="stylesheet">
@@ -9,16 +22,25 @@
     <title>{% block title %}My amazing index{% endblock %}</title>
 </head>
 
+
 <body style="font-family: Roboto; background: linear-gradient(135deg, hsla(16.92, 100%, 90.12%, 1) 0%, hsla(16.92, 100%, 90.12%, 0) 70%), linear-gradient(25deg, hsla(225.9, 0%, 53.72%, 1) 10%, hsla(225.9, 0%, 53.72%, 0) 80%), linear-gradient(315deg, hsla(122.16, 0%, 45.66%, 1) 15%, hsla(122.16, 0%, 45.66%, 0) 80%), linear-gradient(245deg, hsla(354.76, 45.73%, 87.54%, 1) 100%, hsla(354.76, 45.73%, 87.54%, 0) 70%);">
     {% if user.is_authenticated %}
         <header>
-            <div class='container'>
-                <div class='d-flex justify-content-center mb-4 border-bottom border-dark'><h1>AUTO-ECOLE</h1></div>
-                <div class='d-flex justify-content-end'><a href='/app/logout'><button class="btn btn-danger mb-1">Logout</button></a></div>
-                <div class='d-flex justify-content-center mb-4'><h4>Hello {{user.firstname}} [{{user.role.name}}]</h4></div>
-                {% if user.role.id > 2 %}
-                    <a href='/app/manageAccount'><button class="btn btn-warning">All Students</button></a>
-                {% endif %}
+            <div class='d-flex justify-content-between mb-4 bg-white'>
+                <h6 class='ml-1 mt-3 font-italic'>{{user.firstname}} [{{user.role.name}}]</h6>
+                <h1 class='font-italic'>AUTO-ECOLE</h1>
+                <div class='d-flex mt-3 mr-2 font-italic'><a class='text-dark' href='/app/logout'>Logout</a></div>
+            </div>
+
+            <div class='container card mb-2'>
+                <div class='d-flex justify-content-between'>
+                    {% if user.role.id > 2 %}
+                        <a href='/app/manageAccount'><button class="btn btn-warning mb-2 mr-2 mt-2">All Students</button></a>
+                    {% endif %}
+                        <a href='/app/planning'><button class="btn btn-warning mb-2 mt-2">Planning</button></a>
+                    </div>
+                </div>
+              
             </div>
         </header>
         <div class="row">

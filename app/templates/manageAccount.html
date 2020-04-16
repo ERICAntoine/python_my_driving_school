@@ -1,20 +1,8 @@
-<head>
-	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-    <title>{% block title %}Student information{% endblock %}</title>
-</head>
+{% extends "base.html" %}
 
+{% block content %}
 
-<header>
-    <div class='container mb-4'>
-        <div class='d-flex justify-content-center mb-2 border-bottom border-dark'><h1>AUTO-ECOLE</h1></div>
-    </div>
-    <div class='container d-flex justify-content-end'><a href='/app/logout'><button class="btn btn-danger mb-1">Logout</button></a></div>
-    <div class='container'>
-		<a href='/app/planning'><button class="btn btn-warning mb-4">Planning</button></a>
-	</div>
-</header>
-
-<div class='container d-flex justify-content-center border-top border-bottom border-dark mb-5'>
+<div class='container d-flex justify-content-center mb-5'>
 	<div class=' flex-column mt-3'>
 		<div class='mb-1'><h5>Firstname: {{user.firstname}}</h5></div>
 		<div class='mb-1'><h5>Lastname: {{user.lastname}}</h5></div>
@@ -23,7 +11,7 @@
 	</div>
 </div>
 
-<div class='container d-flex justify-content-center border-bottom border-dark mb-5'>
+<div class='container d-flex justify-content-center mb-5'>
 	<form method='post' action="/app/register">
 		<h3 class='mb-4'>Ajouter un utilisateur</h3>
 	    {% csrf_token %}
@@ -39,15 +27,35 @@
 </div>
 
 
-<div class='container'>
 
-	{% for student in users %}
-		<div class='d-flex'>
-			<h5>{{student.firstname}} {{student.lastname}} [{{student.role}}]</h5>
-			<div class='ml-auto p-2 bd-highlight'>
-				<a href='/app/profile/{{student.id}}'><button class="btn btn-success">Profile</button></a>
-				<a href='/app/profile/{{student.id}}/delete'><button class="btn btn-danger">Supprimer</button></a>
-			</div>
-		</div>
-	{% endfor %}
+<div class='container card overflow-auto mb-5'>
+	<table class="table table-striped">
+	  <thead>
+	    <tr>
+	      <th scope="col">#</th>
+	      <th scope="col">First</th>
+	      <th scope="col">Last</th>
+	      <th scope="col">Mail</th>
+	      <th scope="col">Role</th>
+	      <th scope="col"></th>
+	      <th scope="col"></th>
+	    </tr>
+	  </thead>
+	  <tbody>
+	  	{% for student in users %}
+		    <tr>
+		      <th scope="row">{{student.id}}</th>
+		      <td>{{student.firstname}}</td>
+		      <td>{{student.lastname}}</td>
+		      <td>{{student.email}}</td>
+		      <td>{{student.role}}</td>
+		      <td><a href='/app/profile/{{student.id}}'><button class="btn btn-success">Profile</button></a></td>
+		      <td><a href='/app/profile/{{student.id}}/delete'><button class="btn btn-danger">Supprimer</button></a></td>
+		    </tr>
+	    {% endfor %}
+	  </tbody>
+	</table>
 </div>
+
+
+{% endblock %}

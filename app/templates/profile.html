@@ -1,32 +1,9 @@
-<header>
-    <div class='container mb-4'>
-        <div class='d-flex justify-content-center mb-2 border-bottom border-dark'><h1>AUTO-ECOLE</h1></div>
-    </div>
-    <div class='container d-flex justify-content-end'><a href='/app/logout'><button class="btn btn-danger mb-1">Logout</button></a></div>
-</header>
+{% extends 'base.html' %}
+
+{% block content %}
 
 {% if user.id == userID or user.role.id > 2 %}
-    {% block extra_head %}
-        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-        <link rel='stylesheet' type='text/css' href="https://unpkg.com/@fullcalendar/core@4.4.0/main.min.css"/>
-        <link rel='stylesheet' type='text/css' href="https://unpkg.com/@fullcalendar/daygrid@4.4.0/main.min.css"/>
-        <link rel='stylesheet' type='text/css' href="https://unpkg.com/@fullcalendar/timegrid@4.4.0/main.min.css"/>
-        <link rel='stylesheet' type='text/css' href='https://unpkg.com/@fullcalendar/list@4.4.0/main.min.css'/>
-        <script src="https://cdn.jsdelivr.net/npm/@fullcalendar/core@4.4.0/main.min.js"></script>
-        <script src="https://unpkg.com/@fullcalendar/daygrid@4.4.0/main.min.js"></script>
-        <script src="https://unpkg.com/@fullcalendar/timegrid@4.4.0/main.min.js"></script>
-        <script src="https://unpkg.com/@fullcalendar/list@4.4.0/main.min.js"></script>
-        <script src="https://unpkg.com/@fullcalendar/interaction@4.4.0/main.min.js"></script>
-        <script src="/static/js/calendar.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
-    {% endblock %}
-
-    <div class='container'>
-        {% if user.role.id == 3 %}
-            <a href='/app/manageAccount'><button class="btn btn-warning">All Students</button></a>
-        {% endif %}
-    </div>
-
+    
     <div class="container d-flex justify-content-center border-bottom border-dark mb-5">
     	<form method='post' action="/app/profile/{{userID}}">
 	        {% csrf_token %}
@@ -56,7 +33,7 @@
     </div>
     {% endif %}
 
-    <div class='container mt-5 mb-5'>
+    <div class='container card p-2 mt-5 mb-5'>
         <div id="calendar"></div>
     </div>
 
@@ -67,3 +44,6 @@
 {% else %}
     <div class="">{{profile}}</div>
 {% endif %}
+
+
+{% endblock %}
