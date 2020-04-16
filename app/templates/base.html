@@ -11,8 +11,9 @@
 <header>
     <div class='container'>
         <div class='d-flex justify-content-center mb-4 border-bottom border-dark'><h1>AUTO-ECOLE</h1></div>
-        {{user.email}}
-        {{user.role.name}}
+        {% if user.is_authenticated %}
+            <div class='mb-4'>Your account: {{user.email}} [{{user.role.name}}]</div>
+        {% endif %}
     </div>
 </header>
 <body>

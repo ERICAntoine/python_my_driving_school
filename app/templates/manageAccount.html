@@ -30,12 +30,12 @@
 
 <div class='container'>
 
-	{% for student in user %}
+	{% for student in users %}
 		<div class='d-flex'>
 			<h5>{{student.firstname}} {{student.lastname}}</h5>
 			<div class='ml-auto p-2 bd-highlight'>
-				<a href='/app/profile/{{name.id}}'><button class="btn btn-success">Profile</button></a>
-				<a href='/app/profile/{{name.id}}/delete'><button class="btn btn-danger">Supprimer</button></a>
+				<a href='/app/profile/{{student.id}}'><button class="btn btn-success">Profile</button></a>
+				<a href='/app/profile/{{student.id}}/delete'><button class="btn btn-danger">Supprimer</button></a>
 			</div>
 		</div>
 	{% endfor %}

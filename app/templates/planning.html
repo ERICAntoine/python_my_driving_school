@@ -21,7 +21,9 @@
 {% block content %}
 
 <div class='container'>
-    <a href='/app/manageAccount'><button class="btn btn-warning">All Students</button></a>
+    {% if user.role.id == 3 %}
+        <a href='/app/manageAccount'><button class="btn btn-warning">All Students</button></a>
+    {% endif %}
     <div class='d-flex justify-content-end'><a href='/logout'><button class="btn btn-danger mb-4">Logout</button></a></div>
 	{% if user.role.id > 1 %}
 		<form method='post'>
