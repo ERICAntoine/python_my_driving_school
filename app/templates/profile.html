@@ -16,7 +16,7 @@
         </form>
     </div>
 
-    {% if user.id != 1 %}
+    {% if user.role.id > 2 %}
     <div class='container d-flex card p-2 justify-content-center mb-5'> 
         <form method="post" action="/app/planning/">
             {% csrf_token %}
@@ -42,7 +42,13 @@
     </script>
 
 {% else %}
-    <div class="">{{profile}}</div>
+    <div class="container d-flex card p-2 justify-content-center mb-5">
+            {% csrf_token %}
+            <div class='mb-3'>Firstname: {{profile.firstname}}</div>
+            <div class='mb-3'>Lastname: {{profile.lastname}}</div>
+            <div class='mb-3'>Mail: {{profile.email}}</div>
+            <div class='mb-3'>Role: {{profile.role}}</div>
+    </div>
 {% endif %}
 
 
