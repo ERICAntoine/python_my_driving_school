@@ -23,14 +23,14 @@
 
 <div class='container'>
     {% if user.role.id == 3 %}
-        <a href='/app/manageAccount'><button class="btn btn-warning">All Students</button></a>
+        <a href='/app/manageAccount'><button class="btn btn-warning mb-4">All Students</button></a>
     {% endif %}
-    <div class='d-flex justify-content-end'><a href='/app/logout'><button class="btn btn-danger mb-4">Logout</button></a></div>
 	{% if user.role.id > 1 %}
 		<form method='post'>
 			{% csrf_token %}
 
-			<div class='container mb-5 border-bottom border-dark'>
+			<div class='container mb-5 border-bottom border-top border-dark'>
+                <h4 class='d-flex justify-content-center mb-4 mt-3'>Ajouter une date de course</h4>
 				<div class='d-flex justify-content-center'>        
 					<div class='mb-3 ml-1'><p>Tittle:</p> {{form.title}}</div>
 					<div class='mb-3 ml-1'><p>Date de début:</p> {{form.start}}</div>

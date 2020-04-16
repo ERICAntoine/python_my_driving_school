@@ -2,6 +2,7 @@
     <div class='container mb-4'>
         <div class='d-flex justify-content-center mb-2 border-bottom border-dark'><h1>AUTO-ECOLE</h1></div>
     </div>
+    <div class='container d-flex justify-content-end'><a href='/app/logout'><button class="btn btn-danger mb-1">Logout</button></a></div>
 </header>
 
 {% if user.id == userID or user.role.id == 3 %}
@@ -25,10 +26,11 @@
             <a href='/app/manageAccount'><button class="btn btn-warning">All Students</button></a>
         {% endif %}
     </div>
-    
+
     <div class="container d-flex justify-content-center border-bottom border-dark mb-5">
     	<form method='post' action="/app/profile/{{userID}}">
 	        {% csrf_token %}
+            <h4 class='mb-4'>Ajouter un utilisateur</h4>
             <div class='mb-3'>Firstname: {{formProfile.firstname}}</div>
             <div class='mb-3'>Lastname: {{formProfile.lastname}}</div>
             <div class='mb-3'>Email: {{formProfile.email}}</div>
@@ -41,6 +43,7 @@
     <div class='container d-flex justify-content-center border-bottom border-dark mb-5'> 
         <form method="post" action="/app/planning/">
             {% csrf_token %}
+            <h4 class='mb-4'>Ajouter une date de course</h4>
             <div class='mb-3'>Tittle: {{formEvent.title}}</div>
             <div class='mb-3'>Date de début: {{formEvent.start}}</div>
             <div class='mb-3'>Date de fin: {{formEvent.end}}</div>
