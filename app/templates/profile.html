@@ -4,7 +4,7 @@
     </div>
 </header>
 
-{% if user.id == userID or user.role.id == 3 %}
+{% if user.id == userID or user.role.id > 2 %}
     {% block extra_head %}
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
         <link rel='stylesheet' type='text/css' href="https://unpkg.com/@fullcalendar/core@4.4.0/main.min.css"/>
@@ -43,7 +43,9 @@
             {% csrf_token %}
             <div class='mb-3'>Tittle: {{formEvent.title}}</div>
             <div class='mb-3'>Date de début: {{formEvent.start}}</div>
+            {{ formEvent.start.errors }}
             <div class='mb-3'>Date de fin: {{formEvent.end}}</div>
+            {{ formEvent.end.errors }}
             <div class='mb-3'>Instructor: {{formEvent.instructor}}</div>
             <div class='mb-4'>Student: {{formEvent.student}}</div>
             <button type="submit" class="btn btn-success">Send</button>

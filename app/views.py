@@ -48,10 +48,12 @@ def planning(request):
             student = request.POST.get('student')
             if Event.objects.filter(instructor=instructor,start__range=(start, end)).exclude(id=id) or Event.objects.filter(instructor=instructor, end__range=(start, end)).exclude(id=id):
                 form.add_error("start",'Cette date est deja prise par vous ou un autre instructeur.')
-                context['form'] = form 
+                context['form'] = form
+                return render(request, 'planning.html', context)
             elif Event.objects.filter(student=student, start__range=(start, end)).exclude(id=id) or Event.objects.filter(student=student, end__range=(start, end)).exclude(id=id):
-                form.add_error("start",'Cette date est deja prise par vous ou un autre instructeur.')
-                context['form'] = form 
+                form.add_error("end",'Cette date est deja prise par vous ou un autre instructeur.')
+                context['form'] = form
+                return render(request, 'planning.html', context)
             else:
                 planning = Event()
                 planning.instructor = Users.objects.get(id=instructor)
@@ -186,6 +188,7 @@ def profile(request, userID):
         form = ProfileForm(data=request.POST, instance=user)
         if form.is_valid():
             form.save()
+            return redirect("/app/profile/"+ str(userID))
     
 
     return render(request, 'profile.html', context)
@@ -216,12 +219,8 @@ def profileDelete(request, userID):
     else:
         raise PermissionDenied
 
-
-
-
 def bad_request(message):
-    response = HttpResponse(json.dumps({'message': message}), 
-        content_type='application/json')
+    response = HttpResponse(json.dumps({'message': message}), content_type='application/json')
     response.status_code = 400
     return response
 

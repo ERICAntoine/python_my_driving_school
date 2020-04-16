@@ -13,9 +13,8 @@
 		<a href='/app/planning'><button class="btn btn-warning">Planning</button></a>
 	</div>
 <div class='container d-flex justify-content-center border-bottom border-dark mb-5'>
-	<form method='post' action="/app/register">
+	<form method='post' action="/app/register/">
 	    {% csrf_token %}
-	 
 	    <div class='mb-3'>Firstname: {{form.firstname}}</div>
 	    <div class='mb-3'>Lastname: {{form.lastname}}</div>
 	    <div class='mb-3'>Email: {{form.email}}</div>

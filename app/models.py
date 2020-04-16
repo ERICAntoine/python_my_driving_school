@@ -69,4 +69,5 @@ class Planning(models.Model):
     student = models.ForeignKey(Users, on_delete=models.CASCADE, related_name="student")
     title = models.CharField(max_length=100)
 
-
+class Plan(models.Model):
+    hour = models.CharField(max_length = 20)

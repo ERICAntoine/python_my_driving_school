@@ -14,6 +14,9 @@
         {% if user.is_authenticated %}
             <div class='mb-4'>Your account: {{user.email}} [{{user.role.name}}]</div>
         {% endif %}
+        {% if user.role.id > 2 %}
+            <a href='/app/manageAccount'><button class="btn btn-warning">All Students</button></a>
+        {% endif %}
     </div>
 </header>
 <body>

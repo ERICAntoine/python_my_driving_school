@@ -33,7 +33,7 @@ function deletePlanning(id){
         $.ajaxSetup({headers: { "X-CSRFToken": csrftoken }});
         $.post('/app/planning/delete', {id: id})
         .done(function(res) {
-            console.log(res)
+            document.location.reload(true);
             resolve(true);
         })
         .fail(function(e) {
@@ -45,7 +45,6 @@ function deletePlanning(id){
 }
 
 function calendar(e){
-    console.log(e)
     document.addEventListener('DOMContentLoaded', function() {
           const events = parseObject(JSON.parse(e));
           var calendarEl = document.getElementById('calendar');
