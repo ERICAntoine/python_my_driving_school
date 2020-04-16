@@ -118,7 +118,6 @@ def planningUpdate(request):
             end = request.POST.get('end')
             instructor = request.POST.get('instructor')
             student = request.POST.get('student')
-
             if Event.objects.filter(instructor=instructor,start__range=(start, end)).exclude(id=id) or Event.objects.filter(instructor=instructor, end__range=(start, end)).exclude(id=id):
                 #raise Http404("L'instructor a deja un cours ici")
                 return bad_request("L'instructor a deja un cours ici")

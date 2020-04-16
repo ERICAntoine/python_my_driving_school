@@ -8,12 +8,24 @@
     <div class='container mb-4'>
         <div class='d-flex justify-content-center mb-2 border-bottom border-dark'><h1>AUTO-ECOLE</h1></div>
     </div>
-</header>
-	<div class='container'>
-		<a href='/app/planning'><button class="btn btn-warning">Planning</button></a>
+    <div class='container d-flex justify-content-end'><a href='/app/logout'><button class="btn btn-danger mb-1">Logout</button></a></div>
+    <div class='container'>
+		<a href='/app/planning'><button class="btn btn-warning mb-4">Planning</button></a>
 	</div>
+</header>
+
+<div class='container d-flex justify-content-center border-top border-bottom border-dark mb-5'>
+	<div class=' flex-column mt-3'>
+		<div class='mb-1'><h5>Firstname: {{user.firstname}}</h5></div>
+		<div class='mb-1'><h5>Lastname: {{user.lastname}}</h5></div>
+		<div class='mb-1'><h5>Email: {{user.email}}</h5></div>
+		<div class='mb-3'><h5>Role: {{user.role.name}}</h5></div>
+	</div>
+</div>
+
 <div class='container d-flex justify-content-center border-bottom border-dark mb-5'>
-	<form method='post' action="/app/register/">
+	<form method='post' action="/app/register">
+		<h3 class='mb-4'>Ajouter un utilisateur</h3>
 	    {% csrf_token %}
 	    <div class='mb-3'>Firstname: {{form.firstname}}</div>
 	    <div class='mb-3'>Lastname: {{form.lastname}}</div>
