@@ -12,12 +12,13 @@
 </div>
 {% if user.role.id > 2 %}
 	<div class='container card p-2 d-flex justify-content-center mb-5'>
-		<form method='post' action="/app/register">
+		<form method='post' action="/app/register/">
 			<h3 class='mb-4'>Ajouter un utilisateur</h3>
 			{% csrf_token %}
 			<div class='mb-3'>Firstname: {{form.firstname}}</div>
 			<div class='mb-3'>Lastname: {{form.lastname}}</div>
 			<div class='mb-3'>Email: {{form.email}}</div>
+			{{ form.email.errors }}
 			<div class='mb-3'>Password: {{form.password}}</div>
 			<div class='mb-4'>Role: {{form.role}}</div>
 
