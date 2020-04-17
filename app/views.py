@@ -102,7 +102,10 @@ def register(request):
             user = Users.objects.filter(email=email).exists()
             if not user:
                 user = Users.objects.create_user(firstname=firstname, lastname=lastname,email=email,password=password,role=Role.objects.get(id=role))
-                return redirect("/app/login/")
+                if request.user.role.id > 2:
+                    return redirect("/app/manageAccount/")
+                else:
+                    return redirect("/app/login/")
             else:
                 form.add_error("email",'This email address is already in use.')
            
