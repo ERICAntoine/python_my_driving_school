@@ -62,6 +62,7 @@ def planning(request):
                 planning.start = start
                 planning.end = end
                 planning.save()
+                return redirect("/app/planning/")
         else:
             context['form'] = form 
 
@@ -119,11 +120,8 @@ def planningUpdate(request):
             instructor = request.POST.get('instructor')
             student = request.POST.get('student')
             if Event.objects.filter(instructor=instructor,start__range=(start, end)).exclude(id=id) or Event.objects.filter(instructor=instructor, end__range=(start, end)).exclude(id=id):
-                #raise Http404("L'instructor a deja un cours ici")
                 return bad_request("L'instructor a deja un cours ici")
             elif Event.objects.filter(student=student, start__range=(start, end)).exclude(id=id) or Event.objects.filter(student=student, end__range=(start, end)).exclude(id=id):
-                #raise Http404("Le student a deja un cours ici")
-                print("ok")
                 return bad_request("Le student a deja un cours ici")
             else:
                 try:
@@ -138,6 +136,12 @@ def planningUpdate(request):
 
 def manageAccount(request):
     user = request.user
+    if user.role.id == 2:
+        context = {
+            "users": Event.objects.filter(instructor=user.id),
+        }
+        print(Event.objects.filter(instructor=user.id))
+        return render(request, 'manageAccount.html', context)
     if user.role.id == 3:
         context = {
             "users": Users.objects.all().exclude(role=3),
@@ -165,6 +169,8 @@ def profile(request, userID):
             events = Event.objects.filter(instructor=user.id)
         except:
             events = {}
+    else: 
+        events = {}
     
     events = serializers.serialize('json', events)
     formEvent = PlanningForm(user)
@@ -218,6 +224,26 @@ def profileDelete(request, userID):
     else:
         raise PermissionDenied
 
+def planningUpdateOther(request, userID):
+    user = request.user
+    if user.role.id >= 2:
+        id = request.POST.get('id')
+
+        if request.method == 'POST':
+            try:
+                event = Event.objects.get(id=userID)
+                event.title = request.POST.get('title')
+                event.start = request.POST.get('start')
+                event.end = request.POST.get('end')
+                event.instructor = request.POST.get('instructor')
+                event.student = request.POST.get('student')
+                event.save()
+                return HttpResponse('good')
+            except:
+                return bad_request("Le profil n'existe pas")
+    else:
+        return bad_request("Tu n'a pas les droits")
+
 def bad_request(message):
     response = HttpResponse(json.dumps({'message': message}), content_type='application/json')
     response.status_code = 400
@@ -226,3 +252,4 @@ def bad_request(message):
 def logoutAccount(request):
     logout(request)
     return redirect('/app/login')
+

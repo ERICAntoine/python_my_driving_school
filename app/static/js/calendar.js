@@ -86,6 +86,7 @@ function calendar(e){
                     }
                 },
                 eventResize: (date) => {
+                    console.log(date)
                     if(!confirm("Etes vous sur de vouloir déplacer cette evenement")){
                         date.revert()
                     } else {
@@ -99,7 +100,7 @@ function calendar(e){
                         "instructor": date.event.extendedProps.instructor,
                         "student": date.event.extendedProps.student
                         }
-                        console.log(eventData)
+                        const update = updatePlanning(eventData);
                         update.then((res) => {
                             return true;
                         })
@@ -114,6 +115,16 @@ function calendar(e){
                     end: '2100-01-01'
                 },
                 eventClick: function(info){
+                    const start = moment(new Date(info.event.start)).format('YYYY-MM-DDTHH:mm:ss')
+                    const end = moment(new Date(info.event.end)).format('YYYY-MM-DDTHH:mm:ss')
+                    const eventData = {
+                        "id": info.event.extendedProps.idPlanning,
+                        "start": start,
+                        "end": end,
+                        "title": info.event.title,
+                        "instructor": info.event.extendedProps.instructor,
+                        "student": info.event.extendedProps.student
+                    };
                     let id = info.event.extendedProps.idPlanning
                     let input = document.createElement("input");
                     input.value = info.event.title;
@@ -140,7 +151,16 @@ function calendar(e){
                                 deletePlanning(id)
                             break;
                             case true:
-                                swal("Gotcha!", "Pikachu was caught!", "success");
+                                eventData.title = $(".swal-content__input").val()
+                                const update = updatePlanning(eventData);
+                                update.then((res) => {
+                                    document.location.reload(true);
+                                    return true;
+                                })
+                                .catch((err) => {
+                                    console.log('revert')
+                                    alert('Tu es un student')
+                                })
                             break;
                             }
                       });

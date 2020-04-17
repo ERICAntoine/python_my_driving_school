@@ -71,3 +71,7 @@ class Planning(models.Model):
 
 class Plan(models.Model):
     hour = models.CharField(max_length = 20)
+
+class LinkPlanUsers(models.Model):
+    student = models.ForeignKey(Users, on_delete=models.CASCADE)
+    hour = models.ForeignKey(Plan, on_delete=models.CASCADE)

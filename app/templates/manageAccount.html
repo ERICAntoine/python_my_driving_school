@@ -10,51 +10,75 @@
 		<div class='mb-3'><h5>Role: {{user.role.name}}</h5></div>
 	</div>
 </div>
+{% if user.role.id > 2 %}
+	<div class='container card p-2 d-flex justify-content-center mb-5'>
+		<form method='post' action="/app/register">
+			<h3 class='mb-4'>Ajouter un utilisateur</h3>
+			{% csrf_token %}
+			<div class='mb-3'>Firstname: {{form.firstname}}</div>
+			<div class='mb-3'>Lastname: {{form.lastname}}</div>
+			<div class='mb-3'>Email: {{form.email}}</div>
+			<div class='mb-3'>Password: {{form.password}}</div>
+			<div class='mb-4'>Role: {{form.role}}</div>
 
-<div class='container card p-2 d-flex justify-content-center mb-5'>
-	<form method='post' action="/app/register">
-		<h3 class='mb-4'>Ajouter un utilisateur</h3>
-	    {% csrf_token %}
-	    <div class='mb-3'>Firstname: {{form.firstname}}</div>
-	    <div class='mb-3'>Lastname: {{form.lastname}}</div>
-	    <div class='mb-3'>Email: {{form.email}}</div>
-	    <div class='mb-3'>Password: {{form.password}}</div>
-	    <div class='mb-4'>Role: {{form.role}}</div>
+			<button type="submit" class="btn btn-success">Send</button>
 
-    	<button type="submit" class="btn btn-success">Send</button>
+		</form>
+	</div>
+	<div class='container card overflow-auto mb-5'>
+		<table class="table table-striped">
+		<thead>
+			<tr>
+			<th scope="col">#</th>
+			<th scope="col">First</th>
+			<th scope="col">Last</th>
+			<th scope="col">Mail</th>
+			<th scope="col">Role</th>
+			<th scope="col"></th>
+			<th scope="col"></th>
+			</tr>
+		</thead>
+		<tbody>
+			{% for student in users %}
+				<tr>
+				<th scope="row">{{student.id}}</th>
+				<td>{{student.firstname}}</td>
+				<td>{{student.lastname}}</td>
+				<td>{{student.email}}</td>
+				<td>{{student.role}}</td>
+				<td><a href='/app/profile/{{student.id}}'><button class="btn btn-success">Profile</button></a></td>
+				{% if user.role.id > 2 %}<td><a href='/app/profile/{{student.id}}/delete'><button class="btn btn-danger">Supprimer</button></a></td>{% endif %}
+				</tr>
+			{% endfor %}
+		</tbody>
+		</table>
+	</div>
+{% elif user.role.id == 2%}
+	<div class='container card overflow-auto mb-5'>
+		<table class="table table-striped">
+		<thead>
+			<tr>
+			<th scope="col">Start</th>
+			<th scope="col">End</th>
+			<th scope="col">Email</th>
+			<th scope="col"></th>
+			</tr>
+		</thead>
+		<tbody>
+			{% for student in users %}
+				{{student.student.id}}
+				<tr>
+				<th scope="row">{{student.start}}</th>
+				<td>{{student.end}}</td>
+				<td>{{student.student.email}}</td>
+				<td><a href='/app/profile/{{student.student.id}}'><button class="btn btn-success">Profile</button></a></td>
+				</tr>
+			{% endfor %}
+		</tbody>
+		</table>
+	</div>
+{% endif %}
 
-	</form>
-</div>
-
-
-<div class='container card overflow-auto mb-5'>
-	<table class="table table-striped">
-	  <thead>
-	    <tr>
-	      <th scope="col">#</th>
-	      <th scope="col">First</th>
-	      <th scope="col">Last</th>
-	      <th scope="col">Mail</th>
-	      <th scope="col">Role</th>
-	      <th scope="col"></th>
-	      <th scope="col"></th>
-	    </tr>
-	  </thead>
-	  <tbody>
-	  	{% for student in users %}
-		    <tr>
-		      <th scope="row">{{student.id}}</th>
-		      <td>{{student.firstname}}</td>
-		      <td>{{student.lastname}}</td>
-		      <td>{{student.email}}</td>
-		      <td>{{student.role}}</td>
-		      <td><a href='/app/profile/{{student.id}}'><button class="btn btn-success">Profile</button></a></td>
-		      <td><a href='/app/profile/{{student.id}}/delete'><button class="btn btn-danger">Supprimer</button></a></td>
-		    </tr>
-	    {% endfor %}
-	  </tbody>
-	</table>
-</div>
 
 
 {% endblock %}
